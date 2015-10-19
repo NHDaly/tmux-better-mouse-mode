@@ -50,3 +50,8 @@ You should now be able to use the plugin.
   - "off"          - Scrolling to bottom will stay in `copy-mode`.
 
 Put `set -g @scroll-down-exit-copy-mode "off"` in `tmux.conf` to disable.
+
+### Inspiration
+
+Inspired by David Verhasselt's in depth article on Tmux 2.1's changes to Mouse support and scrolling:
+http://www.davidverhasselt.com/better-mouse-scrolling-in-tmux/
