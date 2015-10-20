@@ -56,6 +56,6 @@ Put `set -g @scroll-down-exit-copy-mode "off"` in `tmux.conf` to disable.
 Inspired by David Verhasselt's in depth article on Tmux 2.1's changes to Mouse support and scrolling:
 http://www.davidverhasselt.com/better-mouse-scrolling-in-tmux/
 
-### Inspiration
+### License
 [MIT](LICENSE.md)
 
