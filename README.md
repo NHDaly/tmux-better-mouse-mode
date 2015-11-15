@@ -3,9 +3,17 @@ Restores pre-2.1 behavior of entering and exiting copy-mode with the scroll whee
 
 Enter `copy-mode` by scrolling up, and (optionally) exit `copy-mode` by scrolling back all the way down.
 
+Also adds simple options to tweak mouse-mode behavior.
+
 ### Requirements
 
 This plugin is intended for `tmux` version 2.1 (or higher). It does not work for 2.0 or below, but also is not needed since this is already the default behavior for older versions.
+
+This plugin only *changes* the mouse-mode options, but does not enable mouse-mode.
+
+To enable mouse-mode in tmux 2.1, put the following line in your `~/.tmux.conf`:
+
+    set-option -g mouse on
 
 ### Key bindings
 
@@ -25,6 +33,10 @@ Add plugin to the list of TPM plugins in `.tmux.conf`:
 
 Hit `prefix + I` to fetch the plugin and source it. You should now be able to
 use the plugin.
+
+To enable mouse-mode in tmux 2.1, put the following line in your `~/.tmux.conf`:
+
+    set-option -g mouse on
 
 ### Manual Installation
 
