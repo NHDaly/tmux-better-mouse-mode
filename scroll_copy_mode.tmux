@@ -6,18 +6,34 @@ source "$CURRENT_DIR/scripts/helpers.sh"
 
 scroll_down_exit_copy_mode_option="@scroll-down-exit-copy-mode"
 scroll_in_moused_over_pane_option="@scroll-in-moused-over-pane"
+scroll_without_changing_pane_option="@scroll-without-changing-pane"
 
 bind_wheel_up_to_enter_copy_mode() {
   local scroll_down_to_exit=$(get_tmux_option "$scroll_down_exit_copy_mode_option" "on")
   local scroll_in_moused_over_pane=$(get_tmux_option "$scroll_in_moused_over_pane_option" "on")
+  local scroll_without_changing_pane=$(get_tmux_option "$scroll_without_changing_pane_option" "off")
 
   local enter_copy_mode_cmd="copy-mode"
-  if [ "$scroll_down_to_exit" == 'on' ] ; then
-    enter_copy_mode_cmd="copy-mode -e"
-  fi
   local select_moused_over_pane_cmd=""
+  local send_keys_to_tmux_cmd=""
+  if [ "$scroll_down_to_exit" == 'on' ] ; then
+    if [ $scroll_without_changing_pane == 'on' ] ; then
+      enter_copy_mode_cmd="copy-mode -e -t="
+    else
+      enter_copy_mode_cmd="copy-mode -e"
+    fi
+  fi
   if [ "$scroll_in_moused_over_pane" == 'on' ] ; then
-    select_moused_over_pane_cmd="select-pane -t= ;"
+    if [ $scroll_without_changing_pane == 'on' ] ; then
+      select_moused_over_pane_cmd=""
+    else
+      select_moused_over_pane_cmd="select-pane -t= ;"
+    fi
+  fi
+  if [ "$scroll_without_changing_pane" == 'on' ] ; then
+    send_keys_to_tmux_cmd="send-keys -M -t="
+  else
+    send_keys_to_tmux_cmd="send-keys -M"
   fi
 
 
