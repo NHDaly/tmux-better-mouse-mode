@@ -45,11 +45,16 @@ You should now be able to use the plugin.
 
 ### Configuration
 
+Set options in `.tmux.conf`. ie `set -g @scroll-down-exit-copy-mode "off"` to disable scrolling down exits copy-mode. 
+
 - `scroll-down-exit-copy-mode` - Enable/disable exiting `copy-mode` when scrolling hits the bottom of the scroll-back history.
   - "on" (default) - Scrolling can exit `copy-mode`.
   - "off"          - Scrolling to bottom will stay in `copy-mode`.
 
-Put `set -g @scroll-down-exit-copy-mode "off"` in `tmux.conf` to disable.
+- `scroll-in-moused-over-pane` - Enable/disable passing scroll events to the moused-over pane instead of the currently selected pane.
+  - "on" (default) - Scroll events are sent to moused-over pane.
+  - "off"          - Scroll events stay in currently selected pane.
+
 
 ### Inspiration
 

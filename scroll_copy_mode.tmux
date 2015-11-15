@@ -5,20 +5,34 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "$CURRENT_DIR/scripts/helpers.sh"
 
 scroll_down_exit_copy_mode_option="@scroll-down-exit-copy-mode"
+scroll_in_moused_over_pane_option="@scroll-in-moused-over-pane"
 
 bind_wheel_up_to_enter_copy_mode() {
   local scroll_down_to_exit=$(get_tmux_option "$scroll_down_exit_copy_mode_option" "on")
+  local scroll_in_moused_over_pane=$(get_tmux_option "$scroll_in_moused_over_pane_option" "on")
 
   local enter_copy_mode_cmd="copy-mode"
   case "$scroll_down_to_exit" in
     'on') enter_copy_mode_cmd="copy-mode -e" ;;
     *)    enter_copy_mode_cmd="copy-mode" ;;
   esac
+  local select_moused_over_pane_cmd=""
+  case "$scroll_in_moused_over_pane" in
+    'on') select_moused_over_pane_cmd="select-pane -t=" ;;
+    *)    select_moused_over_pane_cmd="" ;;
+  esac
+
 
   # Start copy mode when scrolling up and exit when scrolling down to bottom.
-# The "#{mouse_any_flag}" check just sends scrolls to any program running that
-# has mouse support (like vim).
-  tmux bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' \"$enter_copy_mode_cmd\""
+  # The "#{mouse_any_flag}" check just sends scrolls to any program running that
+  # has mouse support (like vim).
+  tmux bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' \"$select_moused_over_pane_cmd ; $enter_copy_mode_cmd\""
+
+  # Enable sending scroll-downs to the moused-over-pane.
+  if [ "$scroll_in_moused_over_pane" == 'on' ] ; then
+    tmux bind-key -n WheelDownPane send-keys -M -t =
+  fi
 }
+
 
 bind_wheel_up_to_enter_copy_mode
