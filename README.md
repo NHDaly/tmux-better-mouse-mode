@@ -63,11 +63,11 @@ Set options in `.tmux.conf`. ie `set -g @scroll-down-exit-copy-mode "off"` to di
   - "on" (default)  - Scrolling can exit `copy-mode`.
   - "off"           - Scrolling to bottom will stay in `copy-mode`.
 
-- `scroll-in-moused-over-pane` - When enabled, scroll events are passed to the moused-over pane instead of the currently selected pane.
-  - "on" (default)  - Scroll events are sent to moused-over pane.
-  - "off"           - Scroll events stay in currently selected pane.
+- `scroll-in-moused-over-pane` - When enabled, scrolling over a pane will select that pane and perform the scroll in it, instead of the current pane.
+  - "on" (default)  - Scroll events select and scroll the moused-over pane.
+  - "off"           - Scroll events only apply when moused over the currently selected pane.
 
-- `scroll-without-changing-pane` - When enabled, scrolling the mouse will not select the moused-over pane, allowing you to scroll a window just to read previous output and then keep typing in the current pane. Enabling this feature breaks from `tmux 2.0` settings, but may be an improvement.
+- `scroll-without-changing-pane` - When enabled, scrolling the mouse will not select the moused-over pane, allowing you to scroll a window just to read previous output and then keep typing in the current pane. Enabling this feature is a change from `tmux 2.0` settings, but may be an improvement.
   - "on"            - Scroll events are sent to moused-over pane.
   - "off" (default) - Scroll events stay in currently selected pane.
 
