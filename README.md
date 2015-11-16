@@ -46,7 +46,7 @@ Clone the repo:
 
 Add this line to the bottom of `.tmux.conf`:
 
-    run-shell ~/clone/path/tmux_scroll_copy_mode.tmux
+    run-shell ~/clone/path/scroll_copy_mode.tmux
 
 Reload TMUX environment:
 
