@@ -71,6 +71,10 @@ Set options in `.tmux.conf`. ie `set -g @scroll-down-exit-copy-mode "off"` to di
   - "on"            - Scroll events are sent to moused-over pane.
   - "off" (default) - Scroll events stay in currently selected pane.
 
+- `scroll-speed-num-lines-per-scroll` - Sets the number of lines to scroll per mouse wheel scroll event. The default option is 3, which was the scroll speed in `tmux 2.0`. The value should be >= 1.
+  - "1"             - The minimum option: one line per mouse wheel scroll click.
+  - "3" (default)   - Scroll three lines per every mouse wheel click.
+
 ### Inspiration
 
 Inspired by David Verhasselt's in depth article on Tmux 2.1's changes to Mouse support and scrolling:
