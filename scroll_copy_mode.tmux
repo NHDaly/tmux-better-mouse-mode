@@ -15,7 +15,6 @@ bind_wheel_up_to_enter_copy_mode() {
 
   local enter_copy_mode_cmd="copy-mode"
   local select_moused_over_pane_cmd=""
-  local send_keys_to_tmux_cmd=""
   if [ "$scroll_down_to_exit" == 'on' ] ; then
       enter_copy_mode_cmd="copy-mode -e"
   fi
@@ -25,9 +24,6 @@ bind_wheel_up_to_enter_copy_mode() {
   if [ "$scroll_without_changing_pane" == 'on' ] ; then
     enter_copy_mode_cmd="$enter_copy_mode_cmd -t="
     select_moused_over_pane_cmd=""
-    send_keys_to_tmux_cmd="send-keys -M -t="
-  else
-    send_keys_to_tmux_cmd="send-keys -M"
   fi
 
 
