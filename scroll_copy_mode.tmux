@@ -15,7 +15,7 @@ bind_wheel_up_to_enter_copy_mode() {
   local scroll_in_moused_over_pane=$(get_tmux_option "$scroll_in_moused_over_pane_option" "on")
   local scroll_without_changing_pane=$(get_tmux_option "$scroll_without_changing_pane_option" "off")
   local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
-  local prevent_scroll_for_fullscreen_alternate_buffer=$(get_tmux_option "$prevent_scroll_for_fullscreen_alternate_buffer_option" "on")
+  local prevent_scroll_for_fullscreen_alternate_buffer=$(get_tmux_option "$prevent_scroll_for_fullscreen_alternate_buffer_option" "off")
 
   local enter_copy_mode_cmd="copy-mode"
   local select_moused_over_pane_cmd=""

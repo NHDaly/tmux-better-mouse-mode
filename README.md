@@ -75,6 +75,10 @@ Set options in `.tmux.conf`. ie `set -g @scroll-down-exit-copy-mode "off"` to di
   - "1"             - The minimum option: one line per mouse wheel scroll click.
   - "3" (default)   - Scroll three lines per every mouse wheel click.
 
+- `prevent-scroll-for-fullscreen-alternate-buffer` - When enabled, scrolling in a pane running a "full-screen", alternate buffer program, such as `less`, `man`, or `vi` will not enter `copy-mode` and will not scroll through pane output history. This option defaults to "off", which matches the behavior in `tmux 2.0`. Note, though, that this default behavior may be undesirable since the pane history gets munged when entering a full-screen alternate buffer program.
+  - "on"            - Scroll is passed to the alternate buffer program.
+  - "off" (default) - Scroll event causes scrollback in pane output.
+
 ### Inspiration
 
 Inspired by David Verhasselt's in depth article on Tmux 2.1's changes to Mouse support and scrolling:
