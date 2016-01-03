@@ -35,9 +35,15 @@ bind_wheel_up_to_enter_copy_mode() {
   fi
 
   send_keys_to_tmux_cmd=""
-  for i in `seq 1 "$scroll_speed_num_lines_per_scroll"` ; do
-    send_keys_to_tmux_cmd=$send_keys_to_tmux_cmd"send-keys -M ; "
-  done
+  if [ $(echo " $scroll_speed_num_lines_per_scroll >= 1" | bc) -eq 1 ] ; then  # Positive whole number speed (round down).
+    for i in `seq 1 "$scroll_speed_num_lines_per_scroll"` ; do
+      send_keys_to_tmux_cmd=$send_keys_to_tmux_cmd"send-keys -M ; "
+    done
+  elif [ $(echo " $scroll_speed_num_lines_per_scroll >= 0" | bc) -eq 1 ] ; then  # Positive decimal between 0 and 1 (treat as percent).
+    # Skip enough scrolls so that we scroll only on the specified percent of scrolls.
+    tmux set-environment __scroll_copy_mode__slow_scroll_count 0;
+    send_keys_to_tmux_cmd="if -t = \\\"$CURRENT_DIR/only_scroll_sometimes.sh $scroll_speed_num_lines_per_scroll\\\" \\\"send-keys -M\\\" \\\"\\\"";
+  fi
 
 
   # Start copy mode when scrolling up and exit when scrolling down to bottom.
