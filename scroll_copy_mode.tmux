@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$( dirname "$0" )"
 
-source "$CURRENT_DIR/scripts/helpers.sh"
+. "$CURRENT_DIR/scripts/helpers.sh"
 
 scroll_down_exit_copy_mode_option="@scroll-down-exit-copy-mode"
 scroll_in_moused_over_pane_option="@scroll-in-moused-over-pane"
