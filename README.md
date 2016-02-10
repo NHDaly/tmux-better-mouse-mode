@@ -9,6 +9,10 @@ Also adds simple options to tweak mouse-mode behavior.
 
 This plugin is intended for `tmux` version 2.1 (or higher). It does not work for 2.0 or below, but also is not needed since this is already the default behavior for older versions.
 
+You will need to install gnu awk, this can be done with homebrew with `brew install gawk`. You then need to prepend /usr/local/opt/gawk/bin to your $PATH environment variable. To do this automatically in bash, do the following:
+
+    echo '[ -d /usr/local/opt/gawk ] && PATH="/usr/local/opt/gawk/bin:$PATH"' >> ~/.bashrc
+
 This plugin only *changes* the mouse-mode options, but does not enable mouse-mode.
 
 To enable mouse-mode in tmux 2.1, put the following line in your `~/.tmux.conf`:
