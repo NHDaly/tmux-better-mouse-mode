@@ -1,6 +1,6 @@
 SCROLL_RATIO=$1
 
-num_scrolls_to_scroll=`awk "BEGIN { print int( 1/$SCROLL_RATIO ) }"`
+num_scrolls_to_scroll=`echo - | awk "{print int( 1/$SCROLL_RATIO ) }"`
 get_count_cmd=`tmux show-environment -g __scroll_copy_mode__slow_scroll_count`
 eval $get_count_cmd
 
