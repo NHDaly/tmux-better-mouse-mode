@@ -41,8 +41,9 @@ bind_wheel_up_to_enter_copy_mode() {
     done
   elif [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll >= 0) }") -eq 1 ] ; then  # Positive decimal between 0 and 1 (treat as percent).
     # Skip enough scrolls so that we scroll only on the specified percent of scrolls.
+    num_scrolls_to_scroll=`echo - | awk "{print int( 1/$scroll_speed_num_lines_per_scroll ) }"`
     tmux set-environment __scroll_copy_mode__slow_scroll_count 0;
-    send_keys_to_tmux_cmd="if -t = \\\"$CURRENT_DIR/only_scroll_sometimes.sh $scroll_speed_num_lines_per_scroll\\\" \\\"send-keys -M\\\" \\\"\\\"";
+    send_keys_to_tmux_cmd="if -t = \\\"$CURRENT_DIR/only_scroll_sometimes.sh $num_scrolls_to_scroll\\\" \\\"send-keys -M\\\" \\\"\\\"";
   fi
 
 
