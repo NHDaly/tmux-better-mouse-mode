@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 num_scrolls_to_scroll=$1
 
 get_count_cmd=`tmux show-environment -g __scroll_copy_mode__slow_scroll_count`
