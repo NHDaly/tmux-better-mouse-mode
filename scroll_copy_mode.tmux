@@ -72,11 +72,7 @@ bind_wheel_up_to_enter_copy_mode() {
       " \
         if -Ft= '$check_for_fullscreen_alternate_buffer' \
           '$(send_keys_to_tmux_cmd down)' \
-          \" \
-            if -Ft= '#{pane_in_mode}' \
-              '$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)' \
-              '$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)' \
-          \" \
+          '$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)' \
       "
 }
 
