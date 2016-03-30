@@ -59,9 +59,10 @@ bind_wheel_up_to_enter_copy_mode() {
         if -Ft= '$check_for_fullscreen_alternate_buffer' \
           '$(send_keys_to_tmux_cmd up)' \
           \" \
+            $select_moused_over_pane_cmd \
             if -Ft= '#{pane_in_mode}' \
-              '$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)' \
-              '$select_moused_over_pane_cmd $enter_copy_mode_cmd' \
+              '$(send_keys_to_tmux_cmd -M)' \
+              '$enter_copy_mode_cmd ; $(send_keys_to_tmux_cmd -M)' \
           \" \
       "
   # Enable sending scroll-downs to the moused-over-pane.
