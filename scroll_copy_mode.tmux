@@ -46,15 +46,35 @@ bind_wheel_up_to_enter_copy_mode() {
     send_keys_to_tmux_cmd="if -t = \\\"$CURRENT_DIR/only_scroll_sometimes.sh $num_scrolls_to_scroll\\\" \\\"send-keys -M\\\" \\\"\\\"";
   fi
 
-
   # Start copy mode when scrolling up and exit when scrolling down to bottom.
   # The "#{mouse_any_flag}" check just sends scrolls to any program running that
   # has mouse support (like vim).
-  tmux bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if-shell -Ft= '$check_for_fullscreen_alternate_buffer' 'send-keys -M' \"if -Ft= '#{pane_in_mode}' '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd' '$select_moused_over_pane_cmd $enter_copy_mode_cmd'\""
+  tmux bind-key -n WheelUpPane \
+    if -Ft= "#{mouse_any_flag}" \
+      "send-keys -M" \
+      " \
+        if -Ft= '$check_for_fullscreen_alternate_buffer' \
+          'send-keys -M' \
+          \" \
+            if -Ft= '#{pane_in_mode}' \
+              '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd' \
+              '$select_moused_over_pane_cmd $enter_copy_mode_cmd' \
+          \" \
+      "
 
   # Enable sending scroll-downs to the moused-over-pane.
-  tmux bind-key -n WheelDownPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if-shell -Ft= '$check_for_fullscreen_alternate_buffer' 'send-keys -M' \"if -Ft= '#{pane_in_mode}' '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd' '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd'\""
+  tmux bind-key -n WheelDownPane \
+    if -Ft= "#{mouse_any_flag}" \
+      "send-keys -M" \
+      " \
+        if -Ft= '$check_for_fullscreen_alternate_buffer' \
+          'send-keys -M' \
+          \" \
+            if -Ft= '#{pane_in_mode}' \
+              '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd' \
+              '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd' \
+          \" \
+      "
 }
-
 
 bind_wheel_up_to_enter_copy_mode
