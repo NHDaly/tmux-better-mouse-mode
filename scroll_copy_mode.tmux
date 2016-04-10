@@ -10,11 +10,26 @@ scroll_without_changing_pane_option="@scroll-without-changing-pane"
 scroll_speed_num_lines_per_scroll_option="@scroll-speed-num-lines-per-scroll"
 prevent_scroll_for_fullscreen_alternate_buffer_option="@prevent-scroll-for-fullscreen-alternate-buffer"
 
+send_keys_to_tmux_cmd() {
+  local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
+  local cmd=""
+  if [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll >= 1) }") -eq 1 ] ; then  # Positive whole number speed (round down).
+    for i in `seq 1 "$scroll_speed_num_lines_per_scroll"` ; do
+      cmd=$cmd"send-keys $1 ; "
+    done
+  elif [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll >= 0) }") -eq 1 ] ; then  # Positive decimal between 0 and 1 (treat as percent).
+    # Skip enough scrolls so that we scroll only on the specified percent of scrolls.
+    local num_scrolls_to_scroll=`echo - | awk "{print int( 1/$scroll_speed_num_lines_per_scroll ) }"`
+    tmux set-environment __scroll_copy_mode__slow_scroll_count 0;
+    cmd="if -t = \\\"$CURRENT_DIR/only_scroll_sometimes.sh $num_scrolls_to_scroll\\\" \\\"send-keys $1\\\" \\\"\\\"";
+  fi
+  echo "$cmd"
+}
+
 bind_wheel_up_to_enter_copy_mode() {
   local scroll_down_to_exit=$(get_tmux_option "$scroll_down_exit_copy_mode_option" "on")
   local scroll_in_moused_over_pane=$(get_tmux_option "$scroll_in_moused_over_pane_option" "on")
   local scroll_without_changing_pane=$(get_tmux_option "$scroll_without_changing_pane_option" "off")
-  local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
   local prevent_scroll_for_fullscreen_alternate_buffer=$(get_tmux_option "$prevent_scroll_for_fullscreen_alternate_buffer_option" "off")
 
   local enter_copy_mode_cmd="copy-mode"
@@ -34,27 +49,31 @@ bind_wheel_up_to_enter_copy_mode() {
     check_for_fullscreen_alternate_buffer="#{alternate_on}"
   fi
 
-  send_keys_to_tmux_cmd=""
-  if [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll >= 1) }") -eq 1 ] ; then  # Positive whole number speed (round down).
-    for i in `seq 1 "$scroll_speed_num_lines_per_scroll"` ; do
-      send_keys_to_tmux_cmd=$send_keys_to_tmux_cmd"send-keys -M ; "
-    done
-  elif [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll >= 0) }") -eq 1 ] ; then  # Positive decimal between 0 and 1 (treat as percent).
-    # Skip enough scrolls so that we scroll only on the specified percent of scrolls.
-    num_scrolls_to_scroll=`echo - | awk "{print int( 1/$scroll_speed_num_lines_per_scroll ) }"`
-    tmux set-environment __scroll_copy_mode__slow_scroll_count 0;
-    send_keys_to_tmux_cmd="if -t = \\\"$CURRENT_DIR/only_scroll_sometimes.sh $num_scrolls_to_scroll\\\" \\\"send-keys -M\\\" \\\"\\\"";
-  fi
-
-
   # Start copy mode when scrolling up and exit when scrolling down to bottom.
   # The "#{mouse_any_flag}" check just sends scrolls to any program running that
   # has mouse support (like vim).
-  tmux bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if-shell -Ft= '$check_for_fullscreen_alternate_buffer' 'send-keys -M' \"if -Ft= '#{pane_in_mode}' '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd' '$select_moused_over_pane_cmd $enter_copy_mode_cmd'\""
-
+  tmux bind-key -n WheelUpPane \
+    if -Ft= "#{mouse_any_flag}" \
+      "send-keys -M" \
+      " \
+        if -Ft= '$check_for_fullscreen_alternate_buffer' \
+          '$(send_keys_to_tmux_cmd up)' \
+          \" \
+            $select_moused_over_pane_cmd \
+            if -Ft= '#{pane_in_mode}' \
+              '$(send_keys_to_tmux_cmd -M)' \
+              '$enter_copy_mode_cmd ; $(send_keys_to_tmux_cmd -M)' \
+          \" \
+      "
   # Enable sending scroll-downs to the moused-over-pane.
-  tmux bind-key -n WheelDownPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if-shell -Ft= '$check_for_fullscreen_alternate_buffer' 'send-keys -M' \"if -Ft= '#{pane_in_mode}' '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd' '$select_moused_over_pane_cmd $send_keys_to_tmux_cmd'\""
+  tmux bind-key -n WheelDownPane \
+    if -Ft= "#{mouse_any_flag}" \
+      "send-keys -M" \
+      " \
+        if -Ft= '$check_for_fullscreen_alternate_buffer' \
+          '$(send_keys_to_tmux_cmd down)' \
+          '$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)' \
+      "
 }
-
 
 bind_wheel_up_to_enter_copy_mode
