@@ -8,7 +8,8 @@ scroll_down_exit_copy_mode_option="@scroll-down-exit-copy-mode"
 scroll_in_moused_over_pane_option="@scroll-in-moused-over-pane"
 scroll_without_changing_pane_option="@scroll-without-changing-pane"
 scroll_speed_num_lines_per_scroll_option="@scroll-speed-num-lines-per-scroll"
-prevent_scroll_for_fullscreen_alternate_buffer_option="@prevent-scroll-for-fullscreen-alternate-buffer"
+deprecated_prevent_scroll_for_fullscreen_alternate_buffer_option="@prevent-scroll-for-fullscreen-alternate-buffer"
+emulate_scroll_for_no_mouse_alternate_buffer_option="@emulate-scroll-for-no-mouse-alternate-buffer"
 
 send_keys_to_tmux_cmd() {
   local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
@@ -30,7 +31,8 @@ bind_wheel_up_to_enter_copy_mode() {
   local scroll_down_to_exit=$(get_tmux_option "$scroll_down_exit_copy_mode_option" "on")
   local scroll_in_moused_over_pane=$(get_tmux_option "$scroll_in_moused_over_pane_option" "on")
   local scroll_without_changing_pane=$(get_tmux_option "$scroll_without_changing_pane_option" "off")
-  local prevent_scroll_for_fullscreen_alternate_buffer=$(get_tmux_option "$prevent_scroll_for_fullscreen_alternate_buffer_option" "off")
+  local deprecated_prevent_scroll_for_fullscreen_alternate_buffer=$(get_tmux_option "$deprecated_prevent_scroll_for_fullscreen_alternate_buffer_option" "off")
+  local emulate_scroll_for_no_mouse_alternate_buffer=$(get_tmux_option "$emulate_scroll_for_no_mouse_alternate_buffer_option" "$deprecated_prevent_scroll_for_fullscreen_alternate_buffer")
 
   local enter_copy_mode_cmd="copy-mode"
   local select_moused_over_pane_cmd=""
@@ -45,7 +47,7 @@ bind_wheel_up_to_enter_copy_mode() {
     enter_copy_mode_cmd="$enter_copy_mode_cmd -t="
     select_moused_over_pane_cmd=""
   fi
-  if [ "$prevent_scroll_for_fullscreen_alternate_buffer" == 'on' ] ; then
+  if [ "$emulate_scroll_for_no_mouse_alternate_buffer" == 'on' ] ; then
     check_for_fullscreen_alternate_buffer="#{alternate_on}"
   fi
 
