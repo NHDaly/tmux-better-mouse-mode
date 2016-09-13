@@ -27,31 +27,31 @@ In tmux `copy-mode`:
 
 ### Installation with [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm) (recommended)
 
-Add plugin to the list of TPM plugins in `.tmux.conf`:
+1. Add plugin to the list of TPM plugins in `.tmux.conf`:
 
-    set -g @plugin 'nhdaly/tmux-scroll-copy-mode'
+        set -g @plugin 'nhdaly/tmux-scroll-copy-mode'
 
-Hit `prefix + I` to fetch the plugin and source it. You should now be able to
+1. Hit `prefix + I` to fetch the plugin and source it. You should now be able to
 use the plugin.
 
-To enable mouse-mode in tmux 2.1, put the following line in your `~/.tmux.conf`:
+1. To enable mouse-mode in tmux 2.1+, put the following line in your `~/.tmux.conf`:
 
-    set-option -g mouse on
+        set-option -g mouse on
 
 ### Manual Installation
 
-Clone the repo:
+1. Clone the repo:
 
-    $ git clone https://github.com/nhdaly/tmux-scroll-copy-mode ~/clone/path
+        $ git clone https://github.com/nhdaly/tmux-scroll-copy-mode ~/clone/path
 
-Add this line to the bottom of `.tmux.conf`:
+1. Add this line to the bottom of `.tmux.conf`:
 
-    run-shell ~/clone/path/scroll_copy_mode.tmux
+        run-shell ~/clone/path/scroll_copy_mode.tmux
 
-Reload TMUX environment:
+1. Reload TMUX environment:
 
-    # type this in terminal
-    $ tmux source-file ~/.tmux.conf
+        # type this in terminal
+        $ tmux source-file ~/.tmux.conf
 
 You should now be able to use the plugin.
 
