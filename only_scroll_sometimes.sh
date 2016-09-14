@@ -9,7 +9,7 @@ eval $get_count_cmd
 CURRENT_COUNT=$__scroll_copy_mode__slow_scroll_count
 
 # Now increment and loop around if we've finished the scroll cycle.
-((__scroll_copy_mode__slow_scroll_count = (__scroll_copy_mode__slow_scroll_count + 1 ) % num_scrolls_to_scroll))
+__scroll_copy_mode__slow_scroll_count=$(( (__scroll_copy_mode__slow_scroll_count + 1) % num_scrolls_to_scroll))
 
 
 # Store the new value in tmux.
