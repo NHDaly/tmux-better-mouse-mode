@@ -37,17 +37,17 @@ bind_wheel_up_to_enter_copy_mode() {
   local enter_copy_mode_cmd="copy-mode"
   local select_moused_over_pane_cmd=""
   local check_for_fullscreen_alternate_buffer=""
-  if [ "$scroll_down_to_exit" == 'on' ] ; then
+  if [ "$scroll_down_to_exit" = 'on' ] ; then
       enter_copy_mode_cmd="copy-mode -e"
   fi
-  if [ "$scroll_in_moused_over_pane" == 'on' ] ; then
+  if [ "$scroll_in_moused_over_pane" = 'on' ] ; then
       select_moused_over_pane_cmd="select-pane -t= ;"
   fi
-  if [ "$scroll_without_changing_pane" == 'on' ] ; then
+  if [ "$scroll_without_changing_pane" = 'on' ] ; then
     enter_copy_mode_cmd="$enter_copy_mode_cmd -t="
     select_moused_over_pane_cmd=""
   fi
-  if [ "$emulate_scroll_for_no_mouse_alternate_buffer" == 'on' ] ; then
+  if [ "$emulate_scroll_for_no_mouse_alternate_buffer" = 'on' ] ; then
     check_for_fullscreen_alternate_buffer="#{alternate_on}"
   fi
 
