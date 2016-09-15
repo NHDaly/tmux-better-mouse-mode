@@ -18,7 +18,7 @@ send_keys_to_tmux_cmd() {
     for i in `seq 1 "$scroll_speed_num_lines_per_scroll"` ; do
       cmd=$cmd"send-keys $1 ; "
     done
-  elif [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll >= 0) }") -eq 1 ] ; then  # Positive decimal between 0 and 1 (treat as percent).
+  elif [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll > 0) }") -eq 1 ] ; then  # Positive decimal between 0 and 1 (treat as percent).
     # Skip enough scrolls so that we scroll only on the specified percent of scrolls.
     local num_scrolls_to_scroll=`echo - | awk "{print int( 1/$scroll_speed_num_lines_per_scroll ) }"`
     tmux set-environment __scroll_copy_mode__slow_scroll_count 0;
