@@ -7,6 +7,8 @@ Provides options to control mouse behavior in tmux, so it will behave exactly ho
  - Adjust your scrolling speed.
  - And more!
 
+Finally, `tmux` version 2.1 introduced backwards-incompatible changes to the mouse behavior, and this plugin restores the old mouse behavior. `tmux` version 2.2 mostly restores the 2.0 mouse behavior, but this plugin improves tmux mouse mode beyond those changes and provides you with more control.
+
 ### Requirements
 
 This plugin is intended for `tmux` version 2.1 and higher. It does not work for 2.0 or below.
