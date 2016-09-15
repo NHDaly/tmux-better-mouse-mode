@@ -1,40 +1,38 @@
-# Tmux Scroll Copy Mode
-Restores pre-2.1 behavior of entering and exiting copy-mode with the scroll wheel.
+# Tmux Better Mouse Mode
+A tmux plugin to better manage the mouse.
 
-Enter `copy-mode` by scrolling up, and (optionally) exit `copy-mode` by scrolling back all the way down.
-
-Also adds simple options to tweak mouse-mode behavior.
+Provides options to control mouse behavior in tmux, so it will behave exactly how you want:
+ - Emulate mouse-support for full-screen programs like `less` that don't provide built in mouse support. 
+ - Exit `copy-mode` and return to your prompt by scrolling back all the way down to the bottom.
+ - Adjust your scrolling speed.
+ - And more!
 
 ### Requirements
 
-This plugin is intended for `tmux` version 2.1 (or higher). It does not work for 2.0 or below, but also is not needed since this is already the default behavior for older versions.
+This plugin is intended for `tmux` version 2.1 and higher. It does not work for 2.0 or below.
 
-This plugin only *changes* the mouse-mode options, but does not enable mouse-mode.
+NOTE: This plugin provides options to *change* the mouse-mode behavior, but does not enable mouse-mode.
 
-To enable mouse-mode in tmux 2.1, put the following line in your `~/.tmux.conf`:
+To enable mouse-mode in tmux 2.1+, put the following line in your `~/.tmux.conf`:
 
     set-option -g mouse on
 
 ### Key bindings
 
-In tmux "normal" mode:
+This plugin will overwrite the values for `WheelUpPane` and `WheelDownPane` in tmux in order to configure mouse scrolling.
 
-- `WheelUpPane` - Enters `copy-mode`.
-
-In tmux `copy-mode`:
-
-- `WheelDownPane` - If scrolls to the bottom of scrollback history, exits `copy-mode`. (To disable this feature, see Configuration.
+To see your current setting for these variables, check the output of `tmux list-keys -T root`.
 
 ### Installation with [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm) (recommended)
 
-1. Add plugin to the list of TPM plugins in `.tmux.conf`:
+1. Add this plugin to the list of TPM plugins in `.tmux.conf`:
 
         set -g @plugin 'nhdaly/tmux-scroll-copy-mode'
 
-1. Hit `prefix + I` to fetch the plugin and source it. You should now be able to
+1. Press `prefix + I` or run `$TMUX_PLUGIN_MANAGER_PATH/tpm/scripts/install_plugins.sh` to fetch the plugin and source it. You should now be able to
 use the plugin.
 
-1. To enable mouse-mode in tmux 2.1+, put the following line in your `~/.tmux.conf`:
+1. To enable mouse-mode in tmux 2.1+, put the following line in your `.tmux.conf`:
 
         set-option -g mouse on
 
@@ -57,7 +55,7 @@ You should now be able to use the plugin.
 
 ### Configuration
 
-Set options in `.tmux.conf`. ie `set -g @scroll-down-exit-copy-mode "off"` to disable scrolling down exits copy-mode. 
+Set options in `.tmux.conf`. For example, `set -g @scroll-down-exit-copy-mode "off"` to disable scrolling down exits copy-mode. 
 
 - `scroll-down-exit-copy-mode` - When enabled, the pane exits `copy-mode` when scrolling hits the bottom of the scroll-back history.
   - "on" (default)  - Scrolling can exit `copy-mode`.
