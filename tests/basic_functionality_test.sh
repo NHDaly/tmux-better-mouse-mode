@@ -30,9 +30,11 @@ checkScrollSpeedSetCorrectly() {
   expectedValue="$2"
   tmux set -g @scroll-speed-num-lines-per-scroll $testSpeed
 
-  settings_output=$(bash scroll_copy_mode.tmux)
+  bash scroll_copy_mode.tmux
 
-  assertEquals 'number of `send-keys` per scroll not equal to user setting' $expectedValue `tmux list-keys -T root | grep 'WheelUpPane' | grep -o "'send-keys[^']*'" | head -n 1 | grep -o 'send-keys' | wc -l`
+  # Make sure send-keys shows up correct number of times in up and down scroll bindings.
+  assertEquals 'number of `send-keys` per scroll up not equal to user setting' $expectedValue `tmux list-keys -T root | grep 'WheelUpPane' | grep -o "'send-keys[^']*'" | head -n 1 | grep -o 'send-keys' | wc -l`
+  assertEquals 'number of `send-keys` per scroll down not equal to user setting' $expectedValue `tmux list-keys -T root | grep 'WheelDownPane' | grep -o "'send-keys[^']*'" | head -n 1 | grep -o 'send-keys' | wc -l`
 }
 
 testValidIntegerScrollSpeeds() {
@@ -40,6 +42,7 @@ testValidIntegerScrollSpeeds() {
   checkScrollSpeedSetCorrectly 2 2
   checkScrollSpeedSetCorrectly 10 10
   checkScrollSpeedSetCorrectly 0 0
+  checkScrollSpeedSetCorrectly 2.5 2
 }
 
 testInvalidIntegerScrollSpeeds() {
@@ -48,6 +51,24 @@ testInvalidIntegerScrollSpeeds() {
   checkScrollSpeedSetCorrectly "-0.1" 0
 }
 
+checkFractionalScrollSpeedSetCorrectly() {
+  testSpeed="$1"
+  expectedNumScrollsBeforeScroll="$2"
+  tmux set -g @scroll-speed-num-lines-per-scroll $testSpeed
+
+  bash scroll_copy_mode.tmux
+
+  assertNotNull "`tmux list-keys -T root | grep 'WheelUpPane' | grep \"only_scroll_sometimes.sh $expectedNumScrollsBeforeScroll\"`"
+  assertNotNull "`tmux list-keys -T root | grep 'WheelDownPane' | grep \"only_scroll_sometimes.sh $expectedNumScrollsBeforeScroll\"`"
+
+  assertNotNull "`tmux show-environment __scroll_copy_mode__slow_scroll_count`"
+}
+
+testValidFractionalScrollSpeeds() {
+  checkFractionalScrollSpeedSetCorrectly 0.5 2
+  checkFractionalScrollSpeedSetCorrectly 0.25 4
+  checkFractionalScrollSpeedSetCorrectly 0.33 3
+}
 
 # --------- Run tests command -------------
 . shunit2-2.1.6/src/shunit2
