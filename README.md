@@ -29,7 +29,7 @@ To see your current setting for these variables, check the output of `tmux list-
 
 1. Add this plugin to the list of TPM plugins in `.tmux.conf`:
 
-        set -g @plugin 'nhdaly/tmux-scroll-copy-mode'
+        set -g @plugin 'nhdaly/tmux-better-mouse-mode'
 
 1. Press `prefix + I` or run `$TMUX_PLUGIN_MANAGER_PATH/tpm/scripts/install_plugins.sh` to fetch the plugin and source it. You should now be able to
 use the plugin.
@@ -42,7 +42,7 @@ use the plugin.
 
 1. Clone the repo:
 
-        $ git clone https://github.com/nhdaly/tmux-scroll-copy-mode ~/clone/path
+        $ git clone https://github.com/nhdaly/tmux-better-mouse-mode ~/clone/path
 
 1. Add this line to the bottom of `.tmux.conf`:
 
