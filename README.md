@@ -67,7 +67,7 @@ Set these options in `.tmux.conf`. For example, `set -g @scroll-down-exit-copy-m
   - "on"            - Scroll events are sent to moused-over pane.
   - "off" (default) - Scroll events stay in currently selected pane.
 
-- `scroll-in-moused-over-pane` - When enabled, scrolling mith your mouse over a pane will perform the scroll in that pane, instead of the currently selected one. If `scroll-without-changing-pane` is set to `"off"`, this will also select the moused-over pane.
+- `scroll-in-moused-over-pane` - When enabled, scrolling with your mouse over a pane will perform the scroll in that pane, instead of the currently selected one. If `scroll-without-changing-pane` is set to `"off"`, this will also select the moused-over pane.
   - "on" (default)  - Scroll events select and scroll the moused-over pane.
   - "off"           - Scroll events are ingored unless the mouse is over the currently selected pane.
 
