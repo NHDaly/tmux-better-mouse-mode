@@ -2,8 +2,10 @@
 
 # Setup
 tmux() {
+  # Forward the "getter" calls to actual tmux, but change the setters to just
+  # echo, so we can test what its setting.
   if [[ "$1" == "show-option" ]] ; then
-    \tmux "$@"
+    tmux-2.2/tmux "$@"
   else 
     echo "$@"
   fi

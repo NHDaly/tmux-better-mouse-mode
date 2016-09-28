@@ -1,6 +1,8 @@
 language: bash
 
 before_script:
+    - curl -L "https://github.com/tmux/tmux/releases/download/2.2/tmux-2.2.tar.gz" | tar zx
+    - cd tmux-2.2; ./configure && make
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
 
 script:
