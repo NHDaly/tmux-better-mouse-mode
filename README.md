@@ -31,7 +31,7 @@ To see your current setting for these variables, check the output of `tmux list-
 
         set -g @plugin 'nhdaly/tmux-better-mouse-mode'
 
-1. Press `prefix + I` or run `$TMUX_PLUGIN_MANAGER_PATH/tpm/scripts/install_plugins.sh` to fetch the plugin and source it. You should now be able to
+1. Press `prefix` + <kbd>I</kbd> or run `$TMUX_PLUGIN_MANAGER_PATH/tpm/scripts/install_plugins.sh` to fetch the plugin and source it. You should now be able to
 use the plugin.
 
 1. To enable mouse-mode in tmux 2.1+, put the following line in your `.tmux.conf`:
@@ -77,9 +77,9 @@ Set these options in `.tmux.conf`. For example, `set -g @scroll-down-exit-copy-m
   - "0.5"           - Scroll one line only on every other mouse wheel scroll click.
   - "0.25"           - Scroll one line only on every fourth mouse wheel scroll click.
 
-- `emulate-scroll-for-no-mouse-alternate-buffer` - When enabled, tmux will emulate scrolling for "full-screen", alternate buffer programs, such as `less`, `man`, or `vi` that don't themselves already support mouse interactions. It will not enter `copy-mode` and will not scroll through pane output history, but will instead send `<up-arrow>` and `<down-arrow>` keys to the application. The scroll speed is also set by `@scroll-speed-num-lines-per-scroll` above.
+- `emulate-scroll-for-no-mouse-alternate-buffer` - When enabled, tmux will emulate scrolling for "full-screen", alternate buffer programs, such as `less`, `man`, or `vi` that don't themselves already support mouse interactions. It will not enter `copy-mode` and will not scroll through pane output history, but will instead send `<up-arrow>` (<kbd>&uparrow;</kbd>) and `<down-arrow>`(<kbd>&downarrow;</kbd>) keys to the application. The scroll speed is also set by `@scroll-speed-num-lines-per-scroll` above.
 This option defaults to "off", which matches the behavior in `tmux 2.0`. Note, though, that this default behavior may be undesirable since the pane history gets munged when entering a full-screen alternate buffer program. It's a pretty great option is all I'm saying.
-  - "on"            - `<Up>` and `<Down>` keys are passed to the alternate buffer program on scroll events.
+  - "on"            - <kbd>&uparrow;</kbd> and <kbd>&downarrow;</kbd> keys are passed to the alternate buffer program on scroll events.
   - "off" (default) - Scroll event causes scrollback in pane output.
 
 ### Inspiration
