@@ -54,12 +54,17 @@ bind_wheel_up_to_enter_copy_mode() {
   # Start copy mode when scrolling up and exit when scrolling down to bottom.
   # The "#{mouse_any_flag}" check just sends scrolls to any program running that
   # has mouse support (like vim).
+  # NOTE: the successive levels of quoting commands gets a little confusing
+  #   here. Tmux uses quoting to denote levels of the if-blocks below. The
+  #   pattern used here for consistency is " \" ' \\\" \\\"  ' \" " -- that is,
+  #   " for top-level quotes, \" for the next level in, ' for the third level,
+  #   and \\\" for the fourth (note that the fourth comes from inside send_keys_to_tmux_cmd).
   tmux bind-key -n WheelUpPane \
     if -Ft= "#{mouse_any_flag}" \
       "send-keys -M" \
       " \
         if -Ft= '$check_for_fullscreen_alternate_buffer' \
-          '$(send_keys_to_tmux_cmd up)' \
+          \"$(send_keys_to_tmux_cmd up)\" \
           \" \
             $select_moused_over_pane_cmd \
             if -Ft= '#{pane_in_mode}' \
@@ -68,13 +73,17 @@ bind_wheel_up_to_enter_copy_mode() {
           \" \
       "
   # Enable sending scroll-downs to the moused-over-pane.
+  # NOTE: the quoting pattern used here and in the above command for
+  #   consistency is " \" ' \\\" \\\"  ' \" " -- that is, " for top-level quotes,
+  #   \" for the next level in, ' for the third level, and \\\" for the fourth
+  #   (note that the fourth comes from inside send_keys_to_tmux_cmd).
   tmux bind-key -n WheelDownPane \
     if -Ft= "#{mouse_any_flag}" \
       "send-keys -M" \
       " \
-        if -Ft= '$check_for_fullscreen_alternate_buffer' \
-          '$(send_keys_to_tmux_cmd down)' \
-          '$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)' \
+        if -Ft= \"$check_for_fullscreen_alternate_buffer\" \
+          \"$(send_keys_to_tmux_cmd down)\" \
+          \"$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)\" \
       "
 }
 
