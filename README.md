@@ -19,6 +19,12 @@ To enable mouse-mode in tmux 2.1+, put the following line in your `~/.tmux.conf`
 
     set-option -g mouse on
 
+#### Mac OS X specific requirements
+
+You will need to install gnu awk, this can be done with homebrew with `brew install gawk`. You then need to prepend /usr/local/opt/gawk/bin to your $PATH environment variable. To do this automatically in bash, do the following:
+
+    echo '[ -d /usr/local/opt/gawk ] && PATH="/usr/local/opt/gawk/bin:$PATH"' >> ~/.bashrc
+
 ### Key bindings
 
 This plugin will overwrite the values for `WheelUpPane` and `WheelDownPane` in tmux in order to configure mouse scrolling.
