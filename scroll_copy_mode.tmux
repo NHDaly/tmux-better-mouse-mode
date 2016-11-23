@@ -87,4 +87,6 @@ bind_wheel_up_to_enter_copy_mode() {
       "
 }
 
-bind_wheel_up_to_enter_copy_mode
+if [ `tmux -V | tr '.' ',' | awk '{print ($2 >= 2.1)}'` -eq 1 ]; then
+  bind_wheel_up_to_enter_copy_mode
+fi
