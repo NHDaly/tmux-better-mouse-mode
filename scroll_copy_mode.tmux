@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 CURRENT_DIR="$( dirname "$0" )"
 
@@ -14,11 +14,11 @@ emulate_scroll_for_no_mouse_alternate_buffer_option="@emulate-scroll-for-no-mous
 send_keys_to_tmux_cmd() {
   local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
   local cmd=""
-  if [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll >= 1) }") -eq 1 ] ; then  # Positive whole number speed (round down).
-    for i in `seq 1 "$scroll_speed_num_lines_per_scroll"` ; do
+  if echo - | awk "{ if ($scroll_speed_num_lines_per_scroll >= 1) { exit 0 } else { exit 1 } }" ; then  # Positive whole number speed (round down).
+    for i in {1.."$scroll_speed_num_lines_per_scroll"} ; do
       cmd=$cmd"send-keys $1 ; "
     done
-  elif [ $(echo - | awk "{ print ($scroll_speed_num_lines_per_scroll > 0) }") -eq 1 ] ; then  # Positive decimal between 0 and 1 (treat as percent).
+  elif echo - | awk "{ if ($scroll_speed_num_lines_per_scroll > 0) { exit 0 } else { exit 1 } }" ; then  # Positive decimal between 0 and 1 (treat as percent).
     # Skip enough scrolls so that we scroll only on the specified percent of scrolls.
     local num_scrolls_to_scroll=`echo - | awk "{print int( 1/$scroll_speed_num_lines_per_scroll ) }"`
     tmux set-environment __scroll_copy_mode__slow_scroll_count 0;
