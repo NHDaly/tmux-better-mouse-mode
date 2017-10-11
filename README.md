@@ -84,6 +84,13 @@ This option defaults to "off", which matches the behavior in `tmux 2.0`. Note, t
 
 ### Contributions
 [@nhdaly](https://github.com/nhdaly)
+[@corv89](https://github.com/corv89)
+[@pallxk ](https://github.com/pallxk )
+[@hughdavenport](https://github.com/hughdavenport)
+[@giddie](https://github.com/giddie)
+[@pochemuto](https://github.com/pochemuto)
+[@zeorin](https://github.com/zeorin)
+[@alcesleo](https://github.com/alcesleo)
 [@iamjamestl](https://github.com/iamjamestl)
 
 ### Inspiration
