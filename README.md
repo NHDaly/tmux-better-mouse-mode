@@ -82,6 +82,10 @@ This option defaults to "off", which matches the behavior in `tmux 2.0`. Note, t
   - "on"            - <kbd>&uparrow;</kbd> and <kbd>&downarrow;</kbd> keys are passed to the alternate buffer program on scroll events.
   - "off" (default) - Scroll event causes scrollback in pane output.
 
+### Contributions
+[@nhdaly](https://github.com/nhdaly)
+[@iamjamestl](https://github.com/iamjamestl)
+
 ### Inspiration
 
 Inspired by David Verhasselt's in depth article on Tmux 2.1's changes to Mouse support and scrolling:
