@@ -64,7 +64,7 @@ better_mouse_mode_main() {
       "send-keys -M" \
       " \
         if -Ft= '$check_for_fullscreen_alternate_buffer' \
-          \"$(get_repeated_scroll_cmd up)\" \
+          \"$(get_repeated_scroll_cmd "-t= up")\" \
           \" \
             $select_moused_over_pane_cmd \
             if -Ft= '#{pane_in_mode}' \
@@ -82,7 +82,7 @@ better_mouse_mode_main() {
       "send-keys -M" \
       " \
         if -Ft= \"$check_for_fullscreen_alternate_buffer\" \
-          \"$(get_repeated_scroll_cmd down)\" \
+          \"$(get_repeated_scroll_cmd "-t= down")\" \
           \"$select_moused_over_pane_cmd $(get_repeated_scroll_cmd -M)\" \
       "
 
