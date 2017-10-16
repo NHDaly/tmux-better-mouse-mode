@@ -11,7 +11,7 @@ scroll_speed_num_lines_per_scroll_option="@scroll-speed-num-lines-per-scroll"
 deprecated_prevent_scroll_for_fullscreen_alternate_buffer_option="@prevent-scroll-for-fullscreen-alternate-buffer"
 emulate_scroll_for_no_mouse_alternate_buffer_option="@emulate-scroll-for-no-mouse-alternate-buffer"
 
-send_keys_to_tmux_cmd() {
+get_repeated_scroll_cmd() {
   local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
   local cmd=""
   if echo - | awk "{ if ($scroll_speed_num_lines_per_scroll >= 1) { exit 0 } else { exit 1 } }" ; then  # Positive whole number speed (round down).
@@ -27,7 +27,7 @@ send_keys_to_tmux_cmd() {
   echo "$cmd"
 }
 
-bind_wheel_up_to_enter_copy_mode() {
+better_mouse_mode_main() {
   local scroll_down_to_exit=$(get_tmux_option "$scroll_down_exit_copy_mode_option" "on")
   local scroll_in_moused_over_pane=$(get_tmux_option "$scroll_in_moused_over_pane_option" "on")
   local scroll_without_changing_pane=$(get_tmux_option "$scroll_without_changing_pane_option" "off")
@@ -58,33 +58,43 @@ bind_wheel_up_to_enter_copy_mode() {
   #   here. Tmux uses quoting to denote levels of the if-blocks below. The
   #   pattern used here for consistency is " \" ' \\\" \\\"  ' \" " -- that is,
   #   " for top-level quotes, \" for the next level in, ' for the third level,
-  #   and \\\" for the fourth (note that the fourth comes from inside send_keys_to_tmux_cmd).
+  #   and \\\" for the fourth (note that the fourth comes from inside get_repeated_scroll_cmd).
   tmux bind-key -n WheelUpPane \
     if -Ft= "#{mouse_any_flag}" \
       "send-keys -M" \
       " \
         if -Ft= '$check_for_fullscreen_alternate_buffer' \
-          \"$(send_keys_to_tmux_cmd up)\" \
+          \"$(get_repeated_scroll_cmd up)\" \
           \" \
             $select_moused_over_pane_cmd \
             if -Ft= '#{pane_in_mode}' \
-              '$(send_keys_to_tmux_cmd -M)' \
-              '$enter_copy_mode_cmd ; $(send_keys_to_tmux_cmd -M)' \
+              '$(get_repeated_scroll_cmd -M)' \
+              '$enter_copy_mode_cmd ; $(get_repeated_scroll_cmd -M)' \
           \" \
       "
   # Enable sending scroll-downs to the moused-over-pane.
   # NOTE: the quoting pattern used here and in the above command for
   #   consistency is " \" ' \\\" \\\"  ' \" " -- that is, " for top-level quotes,
   #   \" for the next level in, ' for the third level, and \\\" for the fourth
-  #   (note that the fourth comes from inside send_keys_to_tmux_cmd).
+  #   (note that the fourth comes from inside get_repeated_scroll_cmd).
   tmux bind-key -n WheelDownPane \
     if -Ft= "#{mouse_any_flag}" \
       "send-keys -M" \
       " \
         if -Ft= \"$check_for_fullscreen_alternate_buffer\" \
-          \"$(send_keys_to_tmux_cmd down)\" \
-          \"$select_moused_over_pane_cmd $(send_keys_to_tmux_cmd -M)\" \
+          \"$(get_repeated_scroll_cmd down)\" \
+          \"$select_moused_over_pane_cmd $(get_repeated_scroll_cmd -M)\" \
       "
+
+  # For tmux 2.4+ you have to set the mouse wheel options seperately for copy-mode than from root.
+  local tmux_version=$(get_tmux_version)
+  if echo - | awk "{ if ($tmux_version >= 2.4) { exit 0 } else { exit 1 } }" ; then  # Use copy-mode tables to set scroll speed.
+		local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
+    tmux bind-key -Tcopy-mode WheelUpPane send -N"$scroll_speed_num_lines_per_scroll" -X scroll-up
+		tmux bind-key -Tcopy-mode WheelDownPane send -N"$scroll_speed_num_lines_per_scroll" -X scroll-down
+    tmux bind-key -Tcopy-mode-vi WheelUpPane send -N"$scroll_speed_num_lines_per_scroll" -X scroll-up
+		tmux bind-key -Tcopy-mode-vi WheelDownPane send -N"$scroll_speed_num_lines_per_scroll" -X scroll-down
+  fi
 }
 
-bind_wheel_up_to_enter_copy_mode
+better_mouse_mode_main

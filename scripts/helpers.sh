@@ -9,4 +9,7 @@ get_tmux_option() {
   fi
 }
 
+get_tmux_version() {
+  tmux -V | cut -d " " -f 2
+}
 
