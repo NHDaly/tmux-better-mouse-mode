@@ -15,7 +15,7 @@ get_repeated_scroll_cmd() {
   local scroll_speed_num_lines_per_scroll=$(get_tmux_option "$scroll_speed_num_lines_per_scroll_option" "3")
   local cmd=""
   if echo - | awk "{ if ($scroll_speed_num_lines_per_scroll >= 1) { exit 0 } else { exit 1 } }" ; then  # Positive whole number speed (round down).
-    for i in {1.."$scroll_speed_num_lines_per_scroll"} ; do
+    for ((i = 1; i <= scroll_speed_num_lines_per_scroll; i++)); do
       cmd=$cmd"send-keys $1 ; "
     done
   elif echo - | awk "{ if ($scroll_speed_num_lines_per_scroll > 0) { exit 0 } else { exit 1 } }" ; then  # Positive decimal between 0 and 1 (treat as percent).
